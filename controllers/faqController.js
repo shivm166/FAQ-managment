@@ -1,5 +1,5 @@
 import FAQ from "../models/FAQ.js";
-import FAQCategory from "../models/FAQCategory.js";
+import FAQCategory from "../models/faqCategory.js";
 
 export const addCategory = async (req, res) => {
   const { name } = req.body;
@@ -33,5 +33,6 @@ export const listFAQs = async (req, res) => {
     res.status(200).json(faqs);
   } catch (error) {
     res.status(500).json({ message: error.message });
+    console.log(error);
   }
 };

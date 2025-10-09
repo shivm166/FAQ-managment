@@ -4,7 +4,7 @@ const faqSchema = new mongoose.Schema(
   {
     category: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "FAQCategory",
+      ref: "FAQCategory", // ✅ Must match model name
       required: true,
     },
     question: { type: String, required: true },
@@ -13,4 +13,6 @@ const faqSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.model("FAQ", faqSchema, "FAQ");
+const FAQ = mongoose.model("FAQ", faqSchema, "FAQ");
+
+export default FAQ;

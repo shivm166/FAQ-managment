@@ -7,4 +7,10 @@ const faqCategorySchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.model("FaqCategory", faqCategorySchema, "category");
+const FAQCategory = mongoose.model(
+  "FAQCategory",
+  faqCategorySchema,
+  "category"
+);
+
+export default FAQCategory;
