@@ -20,7 +20,11 @@ export const addFAQ = async (req, res) => {
       return res.status(404).json({ message: "Category not found" });
     }
 
-    const faq = await FAQ.create({ question, answer, category: categoryId });
+    const faq = await FAQ.create({
+      question,
+      answer,
+      category: categoryId,
+    });
     res.status(201).json({ message: "add sucesfully ", faq });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -34,5 +38,14 @@ export const listFAQs = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
     console.log(error);
+  }
+};
+
+export const listCategories = async (req, res) => {
+  try {
+    const categories = await FAQCategory.find();
+    res.status(200).json(categories);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };

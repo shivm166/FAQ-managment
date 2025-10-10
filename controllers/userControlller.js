@@ -72,7 +72,6 @@ export const loginUser = async (req, res) => {
   }
 };
 
-// Change Password
 export const changePassword = async (req, res) => {
   try {
     const { oldPassword, newPassword } = req.body;

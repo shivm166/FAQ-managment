@@ -4,15 +4,22 @@ const faqSchema = new mongoose.Schema(
   {
     category: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "FAQCategory", // ✅ Must match model name
+      ref: "FAQCategory",
       required: true,
     },
-    question: { type: String, required: true },
-    answer: { type: String, required: true },
+    question: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    answer: {
+      type: String,
+      required: true,
+      trim: true,
+    },
   },
   { timestamps: true }
 );
 
 const FAQ = mongoose.model("FAQ", faqSchema, "FAQ");
-
 export default FAQ;
