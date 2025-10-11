@@ -17,7 +17,7 @@ app.use(cors());
 app.use("/api/users", userRoutes);
 app.use("/api/faqs", faqRoutes);
 
-app.get("/", (res, res) => {
+app.get("/", (req, res) => {
   res.send("home route..");
 });
 const PORT = process.env.PORT || 4000;
