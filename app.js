@@ -1,4 +1,3 @@
-// app.js
 import express from "express";
 import dotenv from "dotenv";
 import database from "./config/db.js";
@@ -18,35 +17,27 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(helmet()); // Security headers
-
-// Logging (only in development)
+app.use(helmet());
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
 // Allowed frontend origins
 const allowedOrigins = [
-  process.env.FRONTEND_PROD || "https://faq-managment.onrender.com",
-  process.env.FRONTEND_LOCAL || "http://localhost:5173",
-  "http://127.0.0.1:5173", // for Vite dev server
+  "http://localhost:5173", // local frontend
+  "http://127.0.0.1:5173", // Vite alternative localhost
+  "https://faqmanagment.netlify.app", // deployed frontend on Netlify
 ];
 
 // CORS configuration
 app.use(
   cors({
     origin: function (origin, callback) {
-      // allow requests with no origin (like Postman)
-      if (!origin) return callback(null, true);
-
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      } else {
-        console.warn(`Blocked by CORS: ${origin}`);
-        return callback(new Error("Not allowed by CORS"));
-      }
+      if (!origin) return callback(null, true); // allow Postman, curl, server-to-server
+      if (allowedOrigins.includes(origin)) return callback(null, true);
+      return callback(new Error(`Not allowed by CORS: ${origin}`));
     },
-    credentials: true, // allow cookies
+    credentials: true,
   })
 );
 
@@ -54,12 +45,9 @@ app.use(
 app.use("/api/users", userRoutes);
 app.use("/api/faqs", faqRoutes);
 
-// Home route
-app.get("/", (req, res) => {
-  res.send("Home route..");
-});
+app.get("/", (req, res) => res.send("Home route"));
 
-// Error handling middleware
+// Error handling
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ message: err.message });
@@ -67,6 +55,4 @@ app.use((err, req, res, next) => {
 
 // Start server
 const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
