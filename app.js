@@ -12,10 +12,23 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+const allowedOrigins = [
+  "https://faq-managment.onrender.com",
+  "http://localhost:5173",
+];
+
 app.use(
   cors({
-    origin: "https://faq-managment.onrender.com" || "http://localhost:5173", // your frontend URL
-    credentials: true, // allow cookies
+    origin: function (origin, callback) {
+      // allow requests with no origin (like Postman)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      } else {
+        return callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
   })
 );
 
