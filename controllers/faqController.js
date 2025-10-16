@@ -49,3 +49,17 @@ export const listCategories = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const deleteFaq = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await FAQCategory.findByIdAndDelete(
+      req.body,
+      { new: false },
+      id
+    );
+    res.status(200).json({ success: true, user: "faq deleted succesfullyy.." });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
