@@ -12,7 +12,12 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173", // your frontend URL
+    credentials: true, // allow cookies
+  })
+);
 
 app.use("/api/users", userRoutes);
 app.use("/api/faqs", faqRoutes);
